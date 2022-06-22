@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'weblog_parser'
+
+def request_path
+  warn "Please provide web log path ex. #{File.basename($0)}/file.log"
+  exit 1
+end
+
+file_path = ARGV[0] or request_path
+
+begin
+  puts file_path
+  parser = WeblogParser::Parser.new(file_path)
+  puts parser.format
+rescue WeblogParser::Error => e
+  warn "Could not parse file: #{e.message}"
+  exit 2
+end
